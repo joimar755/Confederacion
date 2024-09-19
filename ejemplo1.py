@@ -14,8 +14,7 @@ Original file is located at
 
 # Importar paquete de programación lineal
 import pulp
-import matplotlib.pyplot as plt
-import numpy as np
+
 
 # Definición del problema (P) y tipo de optimización (min o max)
 Q = pulp.LpProblem(
@@ -23,96 +22,37 @@ Q = pulp.LpProblem(
 )  # si el problema es de Minimización se debe usar pulp.LpMinimize
 
 # Definir variables de decisión (x,y)
-x1 = pulp.LpVariable("x1", lowBound=0)
-x2 = pulp.LpVariable("x2", lowBound=0)
-x3 = pulp.LpVariable("x3", lowBound=0)
-x4 = pulp.LpVariable("x4", lowBound=0)
-x5 = pulp.LpVariable("x5", lowBound=0)
-x6 = pulp.LpVariable("x6", lowBound=0)
-x7 = pulp.LpVariable("x7", lowBound=0)
-x8 = pulp.LpVariable("x8", lowBound=0)
-x9 = pulp.LpVariable("x9", lowBound=0)
+x2 = pulp.LpVariable("x2", lowBound=0, upBound=None)
+x1 = pulp.LpVariable("x1", lowBound=0, upBound=None)
+x3 = pulp.LpVariable("x3", lowBound=0, upBound=None)
+
+# x4 = pulp.LpVariable("x4", lowBound=0)
+# x5 = pulp.LpVariable("x5", lowBound=0)
+# x6 = pulp.LpVariable("x6", lowBound=0)
+# x7 = pulp.LpVariable("x7", lowBound=0)
+# x8 = pulp.LpVariable("x8", lowBound=0)
+# x9 = pulp.LpVariable("x9", lowBound=0)
 
 
+Q += 3000 * (x1) + 2000 * (x2) + 7000 * (x3)
 
-Q += 1000 * (x1 + x4 + x7) + 750 * (x2 + x5 + x8) + 250 * (x3 + x6 + x9)
-
-def Restricción_de_terreno(Q, x1, x2, x3, x4, x5, x6, x7, x8, x9):
-    Q += x1 + x2 + x3 <= 400, "Restricción de terreno Kibbutz 1"
-    Q += x4 + x5 + x6 <= 600, "Restricción de terreno Kibbutz 2"
-    Q += x7 + x8 + x9 <= 300, "Restricción de terreno Kibbutz 3"
-    return Q
+Q += 1 * x1 <= 4
+Q += 2 * x2 <= 12
+Q += 3 * x3 <= 15
+Q += 3 * x1 + 2 * x2 + 1 * x3 <= 18
 
 
-def Restricción_de_agua(Q, x1, x2, x3, x4, x5, x6, x7, x8, x9):
-    Q += 3 * x1 + 2 * x2 + x3 <= 600, "Restricción de agua Kibbutz 1"
-    Q += 3 * x4 + 2 * x5 + x6 <= 800, "Restricción de agua Kibbutz 2"
-    Q += 3 * x7 + 2 * x8 + x9 <= 375, "Restricción de agua Kibbutz 3"
-    return Q
+# Q += 3 * x1 + 2 * x2 + x3 <= 600, "Restricción de agua Kibbutz 1"
+# Q += 3 * x4 + 2 * x5 + x6 <= 800, "Restricción de agua Kibbutz 2"
+# Q += 3 * x7 + 2 * x8 + x9 <= 375, "Restricción de agua Kibbutz 3"
+#
+## Restricción total de acres para cada cultivo
+# Q += x1 + x4 + x7 <= 600, "Restricción total de acres para cultivo 1"
+# Q += x2 + x5 + x8 <= 500, "Restricción total de acres para cultivo 2"
+# Q += x3 + x6 + x9 <= 325, "Restricción total de acres para cultivo 3"
 
-# Restricción total de acres para cada cultivo
-def Restricción_de_acres(Q, x1, x2, x3, x4, x5, x6, x7, x8, x9):
-    Q += x1 + x4 + x7 <= 600, "Restricción total de acres para cultivo 1"
-    Q += x2 + x5 + x8 <= 500, "Restricción total de acres para cultivo 2"
-    Q += x3 + x6 + x9 <= 325, "Restricción total de acres para cultivo 3"
-    return Q
-
-Restricción_de_terreno(
-   Q, x1, x2, x3, x4, x5, x6, x7, x8, x9
-)
-Restricción_de_agua(
-   Q, x1, x2, x3, x4, x5, x6, x7, x8, x9
-)
-Restricción_de_acres(
-   Q, x1, x2, x3, x4, x5, x6, x7, x8, x9
-)
-
-def calcular_restriccion_terreno_kibbutz_1(x1_values):
-    # Restricción de terreno Kibbutz 1: x1 + x2 <= 400
-    return 400 - x1_values
-
-def calcular_restriccion_agua_kibbutz_1(x1_values):
-    # Restricción de agua Kibbutz 1: 3x1 + 2x2 <= 600
-    return (600 - 3 * x1_values) / 2
-
-def calcular_restriccion_acres_cultivo_1(x1_values):
-    # Restricción total de acres para cultivo 1: x1 + x2 <= 600
-    return 600 - x1_values
 
 # Valores para x1
-x1_values = np.linspace(0, 400, 400)
-
-# Calcular los valores de y para las restricciones
-y_values_terreno = calcular_restriccion_terreno_kibbutz_1(x1_values)
-y_values_agua = calcular_restriccion_agua_kibbutz_1(x1_values)
-y_values_acres = calcular_restriccion_acres_cultivo_1(x1_values)
-
-# Encontrar el mínimo valor de y entre las restricciones
-y_min = np.minimum(y_values_terreno, y_values_agua)
-y_min = np.minimum(y_min, y_values_acres)
-
-# Configuración de la gráfica
-plt.figure(figsize=(10, 7))
-plt.plot(x1_values, y_values_terreno, label="Terreno Kibbutz 1: x1 + x2 <= 400", color='pink')
-plt.plot(x1_values, y_values_agua, label="Agua Kibbutz 1: 3x1 + 2x2 <= 600", color='black')
-plt.plot(x1_values, y_values_acres, label="Total acres cultivo 1: x1 + x2 <= 600", color='red')
-
-# Sombrear la región factible
-plt.fill_between(x1_values, 0, y_min, color='grey', alpha=0.3, label="Región factible")
-
-plt.xlim((0, 400))
-plt.ylim((0, 400))
-plt.xlabel('x1')
-plt.ylabel('x2')
-plt.title('Región Factible para x1 y x2')
-plt.legend()
-plt.grid(True)
-plt.show()
-
-
-
-
-
 
 
 # Solucionar el problema
@@ -126,7 +66,7 @@ print("Status:", pulp.LpStatus[Q.status])
 
 # Mostrar la solución óptima
 for variables in Q.variables():
-     print(f"{variables.name} = {variables.varValue}")
+    print(f"{variables.name} = {variables.varValue}")
 
 
 # Mostrar el valor de la función objetivo en el óptimo
