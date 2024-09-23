@@ -33,9 +33,11 @@ x3 = pulp.LpVariable("x3", lowBound=0, upBound=None)
 # x8 = pulp.LpVariable("x8", lowBound=0)
 # x9 = pulp.LpVariable("x9", lowBound=0)
 
-
+#funcion objetico
 Q += 3000 * (x1) + 2000 * (x2) + 7000 * (x3)
 
+
+# Restricciones de la producción
 Q += 1 * x1 <= 4
 Q += 2 * x2 <= 12
 Q += 3 * x3 <= 15
