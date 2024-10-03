@@ -22,9 +22,11 @@ Q = pulp.LpProblem(
 )  # si el problema es de Minimización se debe usar pulp.LpMinimize
 
 # Definir variables de decisión (x,y)
-x2 = pulp.LpVariable("x2", lowBound=0, upBound=None)
-x1 = pulp.LpVariable("x1", lowBound=0, upBound=None)
-x3 = pulp.LpVariable("x3", lowBound=0, upBound=None)
+
+x1 = pulp.LpVariable("x1", cat="Binary")
+x2 = pulp.LpVariable("x2", cat="Binary")
+x3 = pulp.LpVariable("x3", cat="Binary")
+x4 = pulp.LpVariable("x4", cat="Binary")
 
 # x4 = pulp.LpVariable("x4", lowBound=0)
 # x5 = pulp.LpVariable("x5", lowBound=0)
@@ -33,15 +35,16 @@ x3 = pulp.LpVariable("x3", lowBound=0, upBound=None)
 # x8 = pulp.LpVariable("x8", lowBound=0)
 # x9 = pulp.LpVariable("x9", lowBound=0)
 
-#funcion objetico
-Q += 3000 * (x1) + 2000 * (x2) + 7000 * (x3)
+# funcion objetico
+# Q += 3000 * (x1) + 2000 * (x2) + 7000 * (x3)
+Q += 9 * (x1) + 5 * (x2) + 6 * (x3) + 4 * (x4)
 
 
 # Restricciones de la producción
-Q += 1 * x1 <= 4
-Q += 2 * x2 <= 12
-Q += 3 * x3 <= 15
-Q += 3 * x1 + 2 * x2 + 1 * x3 <= 18
+Q += 6 * x1 + 3 * x2 + 5 * x3 + 2 * x4 <= 10
+Q += x3 <= x1
+Q += x4 <= x2
+Q += x3 + x4 <= 1
 
 
 # Q += 3 * x1 + 2 * x2 + x3 <= 600, "Restricción de agua Kibbutz 1"
@@ -61,15 +64,29 @@ Q += 3 * x1 + 2 * x2 + 1 * x3 <= 18
 Q.solve()
 
 
-print("\033[1m" + Q.name + "\033[0m")
+
+print(f"Estado: {pulp.LpStatus[Q.status]}")
+print(f"x1 (Ciudad 1): {pulp.value(x1)}")
+print(f"x2 (Ciudad 2): {pulp.value(x2)}") 
+print(f"x3 (Ciudad 3): {pulp.value(x3)}") 
+print(f"x4 (Ciudad 4): {pulp.value(x4)}")
+
+
+
+
+
+print(f"Ganancia total: {pulp.value(Q.objective)} millones de dólares")
+
+
+#print("\033[1m" + Q.name + "\033[0m")
 
 # Status de la solución encontrada (Unfeasible, Feasible, Optimal)
-print("Status:", pulp.LpStatus[Q.status])
+#print("Status:", pulp.LpStatus[Q.status])
 
 # Mostrar la solución óptima
-for variables in Q.variables():
-    print(f"{variables.name} = {variables.varValue}")
+#for variables in Q.variables():
+ #   print(f"{variables.name} = {variables.varValue}")
 
 
 # Mostrar el valor de la función objetivo en el óptimo
-print(f"Valor óptimo de Z: {Q.objective.value()}")
+#print(f"Valor óptimo de Z: {Q.objective.value()}")
