@@ -27,8 +27,7 @@ x1 = pulp.LpVariable("x1", cat="Binary")
 x2 = pulp.LpVariable("x2", cat="Binary")
 x3 = pulp.LpVariable("x3", cat="Binary")
 x4 = pulp.LpVariable("x4", cat="Binary")
-x5 = pulp.LpVariable("x5", cat="Binary")
-x6 = pulp.LpVariable("x6", cat="Binary")
+
 
 # x4 = pulp.LpVariable("x4", lowBound=0)
 # x5 = pulp.LpVariable("x5", lowBound=0)
@@ -74,8 +73,7 @@ print(f"x1 (Ciudad 1): {pulp.value(x1)}")
 print(f"x2 (Ciudad 2): {pulp.value(x2)}") 
 print(f"x3 (Ciudad 3): {pulp.value(x3)}") 
 print(f"x4 (Ciudad 4): {pulp.value(x4)}")
-print(f"x5 (Ciudad 5): {pulp.value(x5)}")
-print(f"x6 (Ciudad 6): {pulp.value(x6)}")
+
 
 
 
