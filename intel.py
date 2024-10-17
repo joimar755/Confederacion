@@ -34,6 +34,7 @@ prob += pulp.lpSum([x[(servidor, mes)] for servidor in ["Intel_mejorado", "SGI",
 prob.solve()
 
 
+
 # Mostrar los resultados
 print("Estado:", pulp.LpStatus[prob.status])
 for var in prob.variables():
