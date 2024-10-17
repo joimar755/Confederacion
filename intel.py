@@ -24,6 +24,7 @@ prob += pulp.lpSum([costos[servidor] * x[(servidor, mes)] for servidor in servid
 for mes in meses:
     prob += pulp.lpSum([capacidades[servidor] * x[(servidor, m)] for servidor in servidores for m in range(1, mes+1)]) >= demanda[mes], f"DemandaMes{mes}"
 
+
 # Restricción de presupuesto para los meses 1 y 2
 prob += pulp.lpSum([costos[servidor] * x[(servidor, mes)] for servidor in servidores for mes in [1, 2]]) <= 9500, "PresupuestoMes1y2"
 
@@ -32,6 +33,7 @@ prob += pulp.lpSum([x[(servidor, mes)] for servidor in ["Intel_mejorado", "SGI",
 
 # Resolver el problema
 prob.solve()
+
 
 
 # Mostrar los resultados

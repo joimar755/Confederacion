@@ -36,14 +36,7 @@ x9 = pulp.LpVariable("x9", cat="Binary")
 x10 = pulp.LpVariable("x10", cat="Binary")
 x11 = pulp.LpVariable("x11", cat="Binary")
 x12 = pulp.LpVariable("x12", cat="Binary")
-x13 = pulp.LpVariable("x13", cat="Binary")
-x14 = pulp.LpVariable("x14", cat="Binary")
-x15 = pulp.LpVariable("x15", cat="Binary")
-x16 = pulp.LpVariable("x16", cat="Binary")
-x17 = pulp.LpVariable("x17", cat="Binary")
-x18 = pulp.LpVariable("x18", cat="Binary")
-x19 = pulp.LpVariable("x19", cat="Binary")
-x20 = pulp.LpVariable("x20", cat="Binary")
+
 
 
 # funcion objetico
