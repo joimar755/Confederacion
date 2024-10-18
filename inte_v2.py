@@ -58,13 +58,13 @@ Q += (
 nombres_servidores = [ "PC IPE", "PC IPM", "ET SGI", "ET SUN"]
 
 # Restricciones de la producción
-Q += 30 * x1 + 80 * x2 + 200 * x3 + 2000 * x4 >= 0
-Q +=  30 * x1 + 80 * x2 + 200 * x3 + 2000 * x4 +30 * x5 + 80 * x6 + 200 * x7 + 2000 * x8 >= 60
-Q += 30 * x1 + 80 * x2 + 200 * x3 + 2000 * x4 + 30 * x5 + 80 * x6 + 200 * x7 + 2000 * x8 + 30 * x9 + 80 * x10 + 200 * x11 + 2000 * x12 >= 260
-Q += 30 * x1 + 80 * x2 + 200 * x3 + 2000 * x4 + 30 * x5 + 80 * x6 + 200 * x7 + 2000 * x8 + 30 * x9 + 80 * x10 + 200 * x11 + 2000 * x12 + 30 * x13 + 80 * x14 + 200 * x15 + 2000 * x16 >= 290
-Q += 30 * x1 + 80 * x2 + 200 * x3 + 2000 * x4 + 30 * x5 + 80 * x6 + 200 * x7 + 2000 * x8 + 30 * x9 + 80 * x10 + 200 * x11 + 2000 * x12 +  30 * x13 + 80 * x14 + 200 * x15 + 2000 * x16 +30 * x17 + 80 * x18 + 200 * x19 + 2000 * x20 >= 365
-Q +=  x1 + x2 + x3 + x4 + x5 + x6 + x7 + x8 + x9 <=1
-Q +=  2500 * x1 + 5000 * x2 + 9000 * x3 + 18750 * x4 +2500 * x5 + 5000 * x6 + 9000 * x7 + 18750 * x8 <= 9500
+Q += 30 * x1 + 80 * x2 + 200 * x3 + 2000 * x4 >= 0 #retricccion de Capacitacion
+Q += 30 * x1 + 80 * x2 + 200 * x3 + 2000 * x4 +30 * x5 + 80 * x6 + 200 * x7 + 2000 * x8 >= 60 #VENTAS
+Q += 30 * x1 + 80 * x2 + 200 * x3 + 2000 * x4 + 30 * x5 + 80 * x6 + 200 * x7 + 2000 * x8 + 30 * x9 + 80 * x10 + 200 * x11 + 2000 * x12 >= 260 #MANUFACTURA
+Q += 30 * x1 + 80 * x2 + 200 * x3 + 2000 * x4 + 30 * x5 + 80 * x6 + 200 * x7 + 2000 * x8 + 30 * x9 + 80 * x10 + 200 * x11 + 2000 * x12 + 30 * x13 + 80 * x14 + 200 * x15 + 2000 * x16 >= 290 #ALMACEN
+Q += 30 * x1 + 80 * x2 + 200 * x3 + 2000 * x4 + 30 * x5 + 80 * x6 + 200 * x7 + 2000 * x8 + 30 * x9 + 80 * x10 + 200 * x11 + 2000 * x12 +  30 * x13 + 80 * x14 + 200 * x15 + 2000 * x16 +30 * x17 + 80 * x18 + 200 * x19 + 2000 * x20 >= 365 #MERCADOTECNIA
+Q += x1 + x2 + x3 + x4 + x5 + x6 + x7 + x8 + x9 >=1 #1 SERVIDOR POD
+Q += 2500 * x1 + 5000 * x2 + 9000 * x3 + 18750 * x4 +2500 * x5 + 5000 * x6 + 9000 * x7 + 18750 * x8 <= 9500 #Descuento mes 1 y 2
 
 
 # Q += 3 * x1 + 2 * x2 + x3 <= 600, "Restricción de agua Kibbutz 1"
@@ -104,7 +104,7 @@ for i in range(1, 21):
 # Si tienes más meses, simplemente agregas las impresiones correspondientes
 
 
-print(f"Ganancia total: {pulp.value(Q.objective)} millones de dólares")
+print(f"Ganancia total: {int(pulp.value(Q.objective))} millones de dólares")
 
 
 
